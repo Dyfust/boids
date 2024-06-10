@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,22 +95,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 4185472089398163186}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16f9b135d8b426349a2229f7ec265514, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ea5c546c76524242b363ca6484c5660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   perceptionRadius: 5
   fieldOfView: 90
-  avoidanceRadius: 3
+  avoidanceRadius: 4
   _minSpeed: 4
-  _maxSpeed: 6
-  _maxSteerForce: 3
-  _cohesionWeight: 0.85
-  _alignmentWeight: 1
-  _separationWeight: 3
-  _followWeight: 0.2
+  _maxSpeed: 7
+  _maxSteerForce: 6
+  _cohesionWeight: 0.8
+  _alignmentWeight: 1.25
+  _separationWeight: 1.5
+  _followWeight: 0
   _resolution: 20
-  _detectionDist: 2
-  _objectAvoidanceWeight: 3
+  _detectionDist: 3
+  _objectAvoidanceWeight: 5
   _objectLayer:
     serializedVersion: 2
     m_Bits: 16

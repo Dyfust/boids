@@ -4,7 +4,6 @@ public class BoidGroup : MonoBehaviour
 {
     private Boid[] _boids;
 
-    [SerializeField] private int maxFlockSize;
     [SerializeField] private Transform _targetTransform;
 
     private void Start()
@@ -29,8 +28,6 @@ public class BoidGroup : MonoBehaviour
             if (_targetTransform != null)
                 offsetToTarget = (_targetTransform.position - boidA.transform.position);
 
-            Color avgFlockColor = Color.magenta;
-
             foreach (var boidB in _boids)
             {
                 if (boidA == boidB)
@@ -39,19 +36,23 @@ public class BoidGroup : MonoBehaviour
                 Vector2 offset = boidB.transform.position - boidA.transform.position;
                 float distance = offset.magnitude;
 
-                if (distance <= boidA.perceptionRadius && Vector2.Angle(boidA.velocity, offset) <= boidA.fieldOfView && numPerceivedFlockmates <= maxFlockSize)
+                if (distance <= boidA.perceptionRadius)
                 {
                     numPerceivedFlockmates++;
-                    centerOfFlock += (Vector2)boidB.transform.position;
-                    avgFlockHeading += boidB.velocity;
+
+                    if (Vector2.Angle(boidA.velocity, offset) <= boidA.fieldOfView)
+                    {
+                        centerOfFlock += (Vector2)boidB.transform.position;
+                        avgFlockHeading += boidB.velocity;
+                    }
 
                     if (distance <= boidA.avoidanceRadius)
                     {
                         numDangerFlockmates++;
-                        avgSeparationHeading -= offset;
-                    }
 
-                    avgFlockColor += boidB.color;
+                        float inverseFract = 1f - (distance / boidA.avoidanceRadius);
+                        avgSeparationHeading -= offset * inverseFract;
+                    }
                 }
             }
 
@@ -59,12 +60,9 @@ public class BoidGroup : MonoBehaviour
             offsetToCenterOfFlock = centerOfFlock - (Vector2)boidA.transform.position;
 
             avgFlockHeading /= numPerceivedFlockmates;
-            avgSeparationHeading /= numDangerFlockmates;
-
-            avgFlockColor /= numPerceivedFlockmates;
+            //avgSeparationHeading /= numDangerFlockmates;
 
             boidA.UpdateBoid(offsetToCenterOfFlock, avgFlockHeading, avgSeparationHeading, offsetToTarget);
-            boidA.ChangeColor(avgFlockColor);
         }
     }
 }
